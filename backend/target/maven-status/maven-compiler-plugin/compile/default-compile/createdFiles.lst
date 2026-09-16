@@ -1,0 +1,8 @@
+com\vit\resultportal\config\CorsConfig.class
+com\vit\resultportal\controller\HealthController.class
+com\vit\resultportal\repository\StudentResultRepository.class
+com\vit\resultportal\ResultPortalApplication.class
+com\vit\resultportal\controller\ResultApiController.class
+com\vit\resultportal\controller\ApiExceptionHandler.class
+com\vit\resultportal\config\DataInitializer.class
+com\vit\resultportal\model\StudentResult.class
