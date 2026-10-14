@@ -1,0 +1,7 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {initial,generateJava,identifier} from './generator.js';
+test('library imports collection types and emits members',()=>{const result=generateJava(initial.classes[3],initial.classes,initial.relationships);assert.match(result,/import java.util.\*/);assert.match(result,/private List<Book> books;/);assert.match(result,/public Book findBook\(String isbn\)/);assert.match(result,/return null;/)});
+test('inheritance and implementation generate declarations',()=>{const classes=[{id:'a',name:'Child',kind:'Class',attributes:[],methods:[]},{id:'b',name:'Parent',kind:'Abstract',attributes:[],methods:[]},{id:'c',name:'Readable',kind:'Interface',attributes:[],methods:[]}];assert.match(generateJava(classes[0],classes,[{from:'a',to:'b',type:'Inheritance'},{from:'a',to:'c',type:'Implementation'}]),/class Child extends Parent implements Readable/)});
+test('interface emits signatures and initialized constants',()=>{const c={id:'a',name:'Readable',kind:'Interface',attributes:[{name:'LIMIT',type:'int'}],methods:[{name:'read',type:'String',params:''}]};const result=generateJava(c,[c],[]);assert.match(result,/public static final int LIMIT = 0;/);assert.match(result,/public String read\(\);/)});
+test('reject invalid class names',()=>{assert.equal(identifier('bad-name'),false);assert.equal(identifier('class'),false);assert.equal(identifier('Book'),true)});
