@@ -4,6 +4,8 @@ Web Technology Assignment 7. Spring Boot REST APIs and a React dashboard for **s
 
 **GitHub:** [coder-crypt0/wtassign — assign7](https://github.com/coder-crypt0/wtassign/tree/assign7)
 
+**Evaluation report:** [Download the Word report with screenshots](docs/Assignment7_Crease_Report.docx).
+
 ## Run for evaluation
 
 Install **Java 21**, **Maven 3.9+**, and **Node.js 22.12+ LTS**. Open PowerShell in the project root:
