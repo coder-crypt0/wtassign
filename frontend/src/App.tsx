@@ -714,7 +714,7 @@ function MatchCard({
                 <b>
                   {m.firstInningsScore}/{m.firstInningsWickets}
                 </b>{" "}
-                <small>(20.0)</small>
+                <small>({m.firstInningsOvers})</small>
               </>
             )}
           </span>
@@ -904,7 +904,7 @@ function Scoreboard({
               : `${m.firstInningsScore}/${m.firstInningsWickets}`}
           </strong>
           <small>
-            {m.status === "UPCOMING" ? timeLabel(m.startsAt) : "(20.0 ov)"}
+            {m.status === "UPCOMING" ? timeLabel(m.startsAt) : `(${m.firstInningsOvers} ov)`}
           </small>
         </div>
       </div>

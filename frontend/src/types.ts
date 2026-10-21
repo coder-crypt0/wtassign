@@ -27,6 +27,7 @@ export interface Match {
   currentRate: number;
   firstInningsScore: number;
   firstInningsWickets: number;
+  firstInningsOvers: string;
   result: string;
   statusText: string;
   autoPlay: boolean;

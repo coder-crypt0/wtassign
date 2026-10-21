@@ -19,7 +19,7 @@ public class MatchService {
     public record Changed(String matchId, long revision) {}
     public record Summary(String id, Team home, Team away, String status, String tournament, String venue, Instant startsAt,
                           int innings, String battingTeamId, int score, int wickets, String overs, int balls, int maxOvers,
-                          Integer target, Double requiredRate, double currentRate, int firstInningsScore, int firstInningsWickets,
+                          Integer target, Double requiredRate, double currentRate, int firstInningsScore, int firstInningsWickets, String firstInningsOvers,
                           String result, String statusText, boolean autoPlay, boolean editable, long revision) {}
     public record Detail(Summary match, List<ScoreEngine.Innings> innings) {}
     public record ScoreRequest(@NotNull UUID requestId, @NotNull Outcome outcome, @Min(0) @Max(6) int runs, @NotNull @PositiveOrZero Long expectedRevision) {}
@@ -124,13 +124,13 @@ public class MatchService {
         String text = m.status.equals("UPCOMING") ? "First ball " + m.startsAt : home.name() + " are setting the pace";
         if (target != null) text = away.name() + " need " + Math.max(0, target - active.runs()) + " runs in " + Math.max(0, 120 - active.balls()) + " balls";
         if (m.status.equals("COMPLETED")) {
-            result = second.runs() > first.runs() ? away.name() + " won by " + (10 - second.wickets()) + " wickets"
-                    : second.runs() == first.runs() ? "Match tied" : home.name() + " won by " + (first.runs() - second.runs()) + " runs";
+            result = second.runs() > first.runs() ? away.name() + " won by " + (10 - second.wickets()) + (second.wickets() == 9 ? " wicket" : " wickets")
+                    : second.runs() == first.runs() ? "Match tied" : home.name() + " won by " + (first.runs() - second.runs()) + (first.runs() - second.runs() == 1 ? " run" : " runs");
             text = result;
         }
         return new Detail(new Summary(m.id, home, away, m.status, m.tournament, m.venue, m.startsAt, m.currentInnings,
                 active.team().id(), active.runs(), active.wickets(), active.overs(), active.balls(), 20, target, required, active.runRate(),
-                first.runs(), first.wickets(), result, text, m.autoPlay, m.editable, m.revision), m.currentInnings == 1 ? List.of(first) : List.of(first, second));
+                first.runs(), first.wickets(), first.overs(), result, text, m.autoPlay, m.editable, m.revision), m.currentInnings == 1 ? List.of(first) : List.of(first, second));
     }
 
     private void changed(MatchEntity m) { m.revision++; matches.save(m); events.publishEvent(new Changed(m.id, m.revision)); }

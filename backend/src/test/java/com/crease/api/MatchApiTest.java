@@ -42,6 +42,7 @@ class MatchApiTest {
     @Test void scoresDeliveryAndReturnsDerivedPlayerStats() throws Exception {
         mvc.perform(post("/api/matches/test-match/deliveries").contentType(MediaType.APPLICATION_JSON).content(json(command(Outcome.RUN, 4, 0))))
             .andExpect(status().isOk()).andExpect(jsonPath("$.match.score").value(4)).andExpect(jsonPath("$.match.revision").value(1))
+            .andExpect(jsonPath("$.match.firstInningsOvers").value("1.0"))
             .andExpect(jsonPath("$.innings[1].batters[0].fours").value(1));
     }
     @Test void repeatedRequestIsIdempotent() {
